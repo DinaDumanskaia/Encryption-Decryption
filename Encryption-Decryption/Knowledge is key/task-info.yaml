@@ -1,0 +1,176 @@
+type: edu
+custom_name: stage2
+files:
+- name: src/encryptdecrypt/Main.java
+  visible: true
+  text: |-
+    package encryptdecrypt;
+
+    import java.util.HashMap;
+    import java.util.Map;
+
+    public class Main {
+        private static final Map<Integer, Character> LWRCSLETTERS = new HashMap<>();
+        static {
+            LWRCSLETTERS.put(0, 'a');
+            LWRCSLETTERS.put(1, 'b');
+            LWRCSLETTERS.put(2, 'c');
+            LWRCSLETTERS.put(3,'d');
+            LWRCSLETTERS.put(4,'e');
+            LWRCSLETTERS.put(5,'f');
+            LWRCSLETTERS.put(6,'g');
+            LWRCSLETTERS.put(7,'h');
+            LWRCSLETTERS.put(8,'i');
+            LWRCSLETTERS.put(9,'j');
+            LWRCSLETTERS.put(10,'k');
+            LWRCSLETTERS.put(11,'l');
+            LWRCSLETTERS.put(12,'m');
+            LWRCSLETTERS.put(13,'n');
+            LWRCSLETTERS.put(14,'o');
+            LWRCSLETTERS.put(15,'p');
+            LWRCSLETTERS.put(16,'q');
+            LWRCSLETTERS.put(17,'r');
+            LWRCSLETTERS.put(18,'s');
+            LWRCSLETTERS.put(19,'t');
+            LWRCSLETTERS.put(20,'u');
+            LWRCSLETTERS.put(21,'v');
+            LWRCSLETTERS.put(22,'w');
+            LWRCSLETTERS.put(23,'x');
+            LWRCSLETTERS.put(24,'y');
+            LWRCSLETTERS.put(25,'z');
+        }
+
+        public static void main(String[] args) {
+            String input = "we found a treasure!";
+            char[] toEncrypt = input.toCharArray();
+
+            printEncryption(toEncrypt);
+        }
+
+        private static void printEncryption(char[] line) {
+            for (int i = 0; i < line.length; i++) {
+                if (checkIsLetter(line[i])) {
+                    System.out.print(LWRCSLETTERS.get(LWRCSLETTERS.size() - 1 - letterCounter(line[i])));
+                } else {
+                    System.out.print(line[i]);
+                }
+            }
+        }
+
+        private static int letterCounter(char c) {
+            int counter = 0;
+             for (int i = 0; i < LWRCSLETTERS.size(); i++) {
+                if (c != LWRCSLETTERS.get(i)) {
+                    counter++;
+                } else {
+                    return counter;
+                }
+            }
+             return counter;
+        }
+
+        private static boolean checkIsLetter(char c) {
+            for (int i = 0; i < LWRCSLETTERS.size(); i++) {
+                if (c == LWRCSLETTERS.get(i)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+    }
+  learner_created: false
+- name: test/EncryptDecryptTest.java
+  visible: false
+  text: |
+    import org.hyperskill.hstest.stage.StageTest;
+    import org.hyperskill.hstest.testcase.CheckResult;
+    import org.hyperskill.hstest.testcase.TestCase;
+
+    import java.util.List;
+
+
+    class Attach {
+        String original;
+        int shift;
+        String output;
+
+        public Attach(String original, int shift, String output) {
+            this.original = original;
+            this.shift = shift;
+            this.output = output;
+        }
+    }
+
+    public class EncryptDecryptTest extends StageTest<Attach> {
+
+        @Override
+        public List<TestCase<Attach>> generate() {
+            return List.of(
+                new TestCase<Attach>()
+                    .setInput("welcome to hyperskill\n5")
+                    .setAttach(new Attach(
+                        "welcome to hyperskill",
+                        5,
+                        "bjqhtrj yt mdujwxpnqq")),
+
+                new TestCase<Attach>()
+                    .setInput("treasure\n10")
+                    .setAttach(new Attach(
+                        "treasure",
+                        10,
+                        "dbokcebo"
+                    )),
+
+                new TestCase<Attach>()
+                    .setInput("qdvdqvrxqwxrxwpvrxspvxiqgdiqarairpbiqqid\n12")
+                    .setAttach(new Attach(
+                        "qdvdqvrxqwxrxwpvrxspvxiqgdiqarairpbiqqid",
+                        12,
+                        "cphpchdjcijdjibhdjebhjucspucmdmudbnuccup"
+                    )),
+
+                new TestCase<Attach>()
+                    .setInput("y\n10")
+                    .setAttach(new Attach(
+                        "y",
+                        10,
+                        "i"
+                    ))
+            );
+        }
+
+        @Override
+        public CheckResult check(String reply, Attach attach) {
+            String clue = attach.output;
+            reply = reply.trim();
+            clue = clue.trim();
+            boolean isCorrect = reply.equals(clue);
+            if (isCorrect) {
+                return CheckResult.correct();
+            }
+            if (reply.length() != clue.length()) {
+                return CheckResult.wrong(
+                    "You should output a line with length " +
+                        clue.length() + ". " + "You output a " +
+                        "line with length " + reply.length()
+                );
+            }
+            for (int i = 0; i < clue.length(); i++) {
+                if (reply.charAt(i) != clue.charAt(i)) {
+                    return CheckResult.wrong(
+                        "Your " + (i+1) + "-th character '" + reply.charAt(i) + "'" +
+                            " is incorrect. \n" +
+                        "The right one is '" + clue.charAt(i) + "'. \n" +
+                            "Key is " + attach.shift
+                    );
+                }
+            }
+            return CheckResult.correct();
+        }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/projects/46/stages/246/implement#comment
+status: Solved
+record: 1

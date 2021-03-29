@@ -1,0 +1,87 @@
+type: edu
+custom_name: Decrypted!
+files:
+- name: src/encryptdecrypt/Main.java
+  visible: true
+  text: "package encryptdecrypt;\n\nimport java.util.HashMap;\nimport java.util.Map;\n\
+    import java.util.Scanner;\n\npublic class Main {\n    private static final Map<Integer,\
+    \ Character> LWRCSLETTERS = new HashMap<>();\n    static {\n        LWRCSLETTERS.put(0,\
+    \ 'a');\n        LWRCSLETTERS.put(1, 'b');\n        LWRCSLETTERS.put(2, 'c');\n\
+    \        LWRCSLETTERS.put(3,'d');\n        LWRCSLETTERS.put(4,'e');\n        LWRCSLETTERS.put(5,'f');\n\
+    \        LWRCSLETTERS.put(6,'g');\n        LWRCSLETTERS.put(7,'h');\n        LWRCSLETTERS.put(8,'i');\n\
+    \        LWRCSLETTERS.put(9,'j');\n        LWRCSLETTERS.put(10,'k');\n       \
+    \ LWRCSLETTERS.put(11,'l');\n        LWRCSLETTERS.put(12,'m');\n        LWRCSLETTERS.put(13,'n');\n\
+    \        LWRCSLETTERS.put(14,'o');\n        LWRCSLETTERS.put(15,'p');\n      \
+    \  LWRCSLETTERS.put(16,'q');\n        LWRCSLETTERS.put(17,'r');\n        LWRCSLETTERS.put(18,'s');\n\
+    \        LWRCSLETTERS.put(19,'t');\n        LWRCSLETTERS.put(20,'u');\n      \
+    \  LWRCSLETTERS.put(21,'v');\n        LWRCSLETTERS.put(22,'w');\n        LWRCSLETTERS.put(23,'x');\n\
+    \        LWRCSLETTERS.put(24,'y');\n        LWRCSLETTERS.put(25,'z');\n    }\n\
+    \n    public static void main(String[] args) {\n        Scanner scanner = new\
+    \ Scanner(System.in);\n        String input = scanner.nextLine();\n        int\
+    \ shift = Integer.parseInt(scanner.nextLine());\n        char[] toEncrypt = input.toCharArray();\n\
+    \n        printEncryption(toEncrypt, shift);\n    }\n\n    private static void\
+    \ printEncryption(char[] line, int shift) {\n        for (char c : line) {\n \
+    \           if (checkIsLetter(c)) {\n                int shifted = letterCounter(c)\
+    \ + shift;\n                if (shifted > LWRCSLETTERS.size() - 1) {\n       \
+    \             shifted = LWRCSLETTERS.size() - shifted;\n                }\n  \
+    \              System.out.print(LWRCSLETTERS.get(Math.abs(shifted)));\n      \
+    \      } else {\n                System.out.print(c);\n            }\n       \
+    \ }\n    }\n\n    private static int letterCounter(char c) {\n        int counter\
+    \ = 0;\n         for (int i = 0; i < LWRCSLETTERS.size(); i++) {\n           \
+    \ if (c != LWRCSLETTERS.get(i)) {\n                counter++;\n            } else\
+    \ {\n                return counter;\n            }\n        }\n         return\
+    \ counter;\n    }\n\n    private static boolean checkIsLetter(char c) {\n    \
+    \    for (int i = 0; i < LWRCSLETTERS.size(); i++) {\n            if (c == LWRCSLETTERS.get(i))\
+    \ {\n                return true;\n            }\n        }\n        return false;\n\
+    \    }\n    \n}"
+  learner_created: false
+- name: test/EncryptDecryptTest.java
+  visible: false
+  text: |
+    import org.hyperskill.hstest.stage.StageTest;
+    import org.hyperskill.hstest.testcase.SimpleTestCase;
+
+    import java.util.List;
+
+    public class EncryptDecryptTest extends StageTest {
+
+        @Override
+        public List<SimpleTestCase> generate() {
+            return List.of(
+                new SimpleTestCase(
+                    "enc\n" +
+                        "Welcome to hyperskill!\n" +
+                        "5",
+                    "\\jqhtrj%yt%m~ujwxpnqq&"),
+                new SimpleTestCase(
+                    "enc\n" +
+                        "Hello\n" +
+                        "0",
+                    "Hello"),
+                new SimpleTestCase(
+                    "enc\n" +
+                        "012345678\n" +
+                        "1",
+                    "123456789"),
+                new SimpleTestCase(
+                    "dec\n" +
+                        "\\jqhtrj%yt%m~ujwxpnqq&\n" +
+                        "5",
+                    "Welcome to hyperskill!"),
+                new SimpleTestCase(
+                    "dec\n" +
+                        "Hello\n" +
+                        "0",
+                    "Hello"),
+                new SimpleTestCase(
+                    "dec\n" +
+                        "222233334444\n" +
+                        "1",
+                    "111122223333")
+            );
+        }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/projects/46/stages/247/implement#comment
+status: Solved
+record: 2
